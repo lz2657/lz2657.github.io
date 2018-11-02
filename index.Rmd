@@ -6,15 +6,15 @@ title: "Lingyu Zhang"
 ##### Mailman School of Public Health
 ##### Columbia University
 
-### About
+## About
 I’m a first year student of MS in biostatistics at Columbia University. I completed my B.S. in mathematics at Zhejiang University in 2018. <br>
 
 More information can be found on my [resume](Resume.html).<br>
 
-### Homework
+## Homework
 Problem 2 of homework 4 can be found [here](Homework.html).<br>
 
-### Contact 
+## Contact 
 
 Lingyu Zhang<br> 
 Department of Biostatistics<br>
