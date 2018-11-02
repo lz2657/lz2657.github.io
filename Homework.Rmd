@@ -1,0 +1,65 @@
+---
+title: "Homework"
+output: 
+  flexdashboard::flex_dashboard:
+    self_contained: false
+    orientation: columns
+    vertical_layout: fill
+---
+
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(p8105.datasets)
+library(plotly)
+```
+
+Column {data-width=618}
+-----------------------------------------------------------------------
+
+### Most popular aisles (more than 30K orders)
+
+```{r plot_1}
+instacart %>%
+  count(aisle) %>%
+  filter(n >= 30000) %>%
+  mutate(aisle = fct_reorder(aisle, n)) %>%
+  plot_ly(x = ~aisle, y = ~n, color = ~aisle, type = "bar") %>%
+  layout(xaxis = list(title = "Aisle"), 
+         yaxis = list(title = "Number of Orders"))
+```
+
+Column {data-width=372}
+-----------------------------------------------------------------------
+
+
+### Number of items per order on each day of a week (among the first 100K orders)
+
+```{r plot_2}
+data = instacart %>% 
+  filter(order_id < 100000) %>% 
+  group_by(order_id, order_dow) %>% 
+  summarise(item_num = n()) %>%
+  mutate(order_dow = recode(order_dow, `0` = "Sunday", `1` = "Monday", `2` = "Tuesday", 
+                            `3` = "Wednesday", `4` = "Thursday", `5` = "Friday", `6` = "Saturday"))
+
+data$order_dow = factor(data$order_dow, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", 
+                                                   "Thursday", "Friday", "Saturday"))
+
+plot_ly(data, x = ~order_dow, y = ~item_num, color = ~order_dow, type = "box") %>%
+  layout(xaxis = list(title = ""),
+         yaxis = list(title = "Number of items per order"))
+```
+
+### Number of orders in different time of a day
+
+```{r plot_3}
+instacart %>%
+  select(order_id, order_hour_of_day) %>% 
+  distinct(order_id, .keep_all = TRUE) %>% 
+  count(order_hour_of_day) %>% 
+  plot_ly(x = ~order_hour_of_day, y = ~n, type = "scatter", mode = "lines") %>% 
+  layout(xaxis = list(title = "O'clock"), 
+         yaxis = list(title = "Number of Orders"))
+```
